@@ -1,0 +1,5 @@
+  - {pin_num: A7, peripheral: GPIO5, signal: 'gpio_io, 8', pin_signal: ECSPI1_MISO}
+  - {pin_num: B7, peripheral: GPIO5, signal: 'gpio_io, 7', pin_signal: ECSPI1_MOSI}
+  - {pin_num: D6, peripheral: GPIO5, signal: 'gpio_io, 6', pin_signal: ECSPI1_SCLK}
+  - {pin_num: B6, peripheral: GPIO5, signal: 'gpio_io, 5', pin_signal: ECSPI1_SSO}
+
