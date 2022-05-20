@@ -11,7 +11,7 @@ function make_dart_mx8mp()
 	rm -r boards/dart_mx8mp/driver_examples/pdm
 	rm -r boards/dart_mx8mp/demo_apps/sai_low_power_audio
 
-	echo "Port UART4 console to UART3"
+	echo "Replace UART4 console with UART3"
 	for i in $(find boards/dart_mx8mp -name "board.h"); do
 	  sed -i 's/UART4_BASE/UART3_BASE/g' "$i"
 	  sed -i 's/(4U)/(3U)/g' "$i"
@@ -72,13 +72,12 @@ function make_dart_mx8mp()
 	  sed -i 's/pin_num: AH5, peripheral: UART4, signal: uart_tx, pin_signal: UART4_TXD/pin_num: AJ4, peripheral: UART3, signal: uart_tx, pin_signal: UART3_TXD/g' "$i"
 	  sed -i "s/pin_num: AJ5, peripheral: GPIO5, signal: 'gpio_io, 28', pin_signal: UART4_RXD/pin_num: AE6, peripheral: GPIO5, signal: 'gpio_io, 26', pin_signal: UART3_RXD/g" "$i"
 	  sed -i "s/pin_num: AH5, peripheral: GPIO5, signal: 'gpio_io, 29', pin_signal: UART4_TXD/pin_num: AJ4, peripheral: GPIO5, signal: 'gpio_io, 27', pin_signal: UART3_TXD/g" "$i"
-	#fix nxp bug regarding cmsis_driver_examples where was been used different UART pads
+	  # fix nxp bug regarding cmsis_driver_examples where was been used different UART pads
 	  sed -i 's/pin_num: AJ5, peripheral: UART4, signal: uart_tx, pin_signal: UART4_RXD/pin_num: AE6, peripheral: UART3, signal: uart_rx, pin_signal: UART3_RXD/g' "$i"
 	  sed -i 's/pin_num: AH5, peripheral: UART4, signal: uart_rx, pin_signal: UART4_TXD/pin_num: AJ4, peripheral: UART3, signal: uart_tx, pin_signal: UART3_TXD/g' "$i"
 	done
 
-
-	echo "Port ECSPI2 to ECSPI1"
+	echo "Replace ECSPI2 with ECSPI1"
 	for i in $(find boards/dart_mx8mp -name "pin_mux.c"); do
 	  sed -i 's/IOMUXC_ECSPI2_SCLK_ECSPI2_SCLK/IOMUXC_ECSPI1_SCLK_ECSPI1_SCLK/g' "$i"
 	  sed -i 's/IOMUXC_ECSPI2_MOSI_ECSPI2_MOSI/IOMUXC_ECSPI1_MOSI_ECSPI1_MOSI/g' "$i"
@@ -123,7 +122,7 @@ function make_dart_mx8mp()
 	done
 
 
-	echo "Port PWM4 to PWM3"
+	echo "Replace PWM4 with PWM3"
 	for i in $(find boards/dart_mx8mp -name "pin_mux.c"); do
 	  sed -i 's/IOMUXC_SAI5_RXFS_PWM4_OUT/IOMUXC_SPDIF_TX_PWM3_OUT/g' "$i"
 	done
@@ -137,7 +136,7 @@ function make_dart_mx8mp()
 	done
 
 
-	echo "Port GPIO3,16 to GPIO4,3"
+	echo "Adjust Led output"
 	for i in $(find boards/dart_mx8mp -name "pin_mux.c"); do
 	  sed -i 's/IOMUXC_NAND_READY_B_GPIO3_IO16/IOMUXC_SAI1_RXD1_GPIO4_IO03/g' "$i"
 	done
@@ -156,7 +155,6 @@ function make_dart_mx8mp()
 	  #Delete lines after a pattern (including the line with the pattern):
 	  sed -i "/{pin_num: AC18, peripheral: GPIO5, signal:/,0d" "$i"
 	  sed -i '/IOMUXC_SPDIF_EXT_CLK_GPIO5_IO05/,+4d' "$i"
-
 	  sed -i 's/IOMUXC_SPDIF_RX_CAN1_RX/IOMUXC_SAI2_TXC_CAN1_RX/g' "$i"
 	  sed -i 's/IOMUXC_SPDIF_TX_CAN1_TX/IOMUXC_SAI2_RXC_CAN1_TX/g' "$i"
 	  sed -i 's/pin_num: AD18, peripheral: FLEXCAN1, signal: can_rx, pin_signal: SPDIF_RX/pin_num: AH15, peripheral: FLEXCAN1, signal: can_rx, pin_signal: SAI2_TXC/g' "$i"
@@ -168,30 +166,28 @@ function make_dart_mx8mp()
 	  sed -i '/GPIO5_IO05 is used to control CAN1_STBY/,+3d' "$i"
 	done
 
-	echo "Port dts reference name"
+	echo "Replace dts reference name"
 	for i in $(find boards/dart_mx8mp -name "board.c"); do
 	  sed -i "s/imx8mp-evk-rpmsg.dts/imx8mp-var-common-m7.dtsi/g" "$i"
 	done
 
-	echo "Port VDEV0_VRING_BASE"
+	echo "Adjust VDEV0_VRING_BASE"
 	for i in $(find boards/dart_mx8mp -name "board.h"); do
 	  sed -i 's/(0x55000000U)/(0x40000000U)/g' "$i"
 	done
 
-
-	echo "Port BOARD_NAME and  MANUFACTURER_NAME"
+	echo "Adjust BOARD_NAME and  MANUFACTURER_NAME"
 	for i in $(find boards/dart_mx8mp -name "board.h"); do
 	  sed -i 's/"MIMX8MP-EVK"/"DART-MX8MQ-PLUS"/g' "$i"
 	  sed -i 's/"NXP"/"Variscite"/g' "$i"
 	done
 
-
-	echo "Port *.xml files"
+	echo "Adjust *.xml files"
 	for i in $(find boards/dart_mx8mp -name "*.xml"); do
 	  sed -i "s/evkmimx8mp/dart_mx8mp/g" "$i"
 	done
 
-	echo "Port readme.txt files"
+	echo "Adjust readme.txt files"
 	for i in $(find boards/dart_mx8mp -name "readme.txt"); do
 	  sed -i "s/EVK-MIMX8M Plus board/DART-MX8MQ-PLUS SoM/g" "$i"
 	  sed -i "s/Connect 12V power supply and J-Link Debug Probe to the board, switch SW3 to power on the board/Connect proper power supply and J-Link Debug Probe to the board, switch SW8 to power on the board/g" "$i"
@@ -210,10 +206,12 @@ function make_dart_mx8mp()
 	  sed -i 's/instance 2 of the ECSPI/instance 1 of the ECSPI/g' "$i"
 	done
 
+	echo "Adjust clean.sh files"
 	for i in $(find boards/dart_mx8mp -name "clean.sh"); do
 	  echo "rm -rf output.map" >> $i
 	done
 
+	echo "Remove evkmimx8mp.png file"
 	rm boards/dart_mx8mp/evkmimx8mp.png
 
 	if [ ! -f DART-MIMX8MP_manifest_v3_9.xml ]; then

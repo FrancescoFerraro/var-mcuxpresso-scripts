@@ -12,7 +12,7 @@ function make_som_mx8mp()
 	rm -r boards/som_mx8mp/driver_examples/pdm
 	rm -r boards/som_mx8mp/demo_apps/sai_low_power_audio
 
-	echo "Port I2C3 to I2C4"
+	echo "Replace I2C3 with I2C4"
 	for i in $(find boards/som_mx8mp -name "pin_mux.c"); do
 	  sed -i 's/IOMUXC_I2C3_SCL_I2C3_SCL/IOMUXC_I2C4_SCL_I2C4_SCL/g' "$i"
 	  sed -i 's/IOMUXC_I2C3_SDA_I2C3_SDA/IOMUXC_I2C4_SDA_I2C4_SDA/g' "$i"
@@ -46,7 +46,7 @@ function make_som_mx8mp()
 	  sed -i "s/pin_num: AJ6, peripheral: GPIO5, signal: 'gpio_io, 19', pin_signal: I2C3_SDA/pin_num: AD8, peripheral: GPIO5, signal: 'gpio_io, 21', pin_signal: I2C4_SDA/g" "$i"
 	done
 
-	echo "Port PWM4 to PWM2"
+	echo "Replace PWM4 with PWM2"
 	for i in $(find boards/som_mx8mp -name "pin_mux.c"); do
 	  sed -i 's/IOMUXC_SAI5_RXFS_PWM4_OUT/IOMUXC_GPIO1_IO11_PWM2_OUT/g' "$i"
 	done
@@ -59,12 +59,11 @@ function make_som_mx8mp()
 	  sed -i 's/pin_num: AC14, peripheral: PWM4, signal: pwm_out, pin_signal: SAI5_RXFS/pin_num: AE18, peripheral: PWM2, signal: pwm_out, pin_signal: GPIO1_IO11/g' "$i"
 	done
 
-	echo "Port FLEXCAN1 to FLEXCAN2"
+	echo "Replace FLEXCAN1 with FLEXCAN2"
 	for i in $(find boards/som_mx8mp -name "pin_mux.c"); do
 	  #Delete lines after a pattern (including the line with the pattern):
 	  sed -i "/{pin_num: AC18, peripheral: GPIO5, signal:/,0d" "$i"
 	  sed -i '/IOMUXC_SPDIF_EXT_CLK_GPIO5_IO05/,+4d' "$i"
-
 	  sed -i 's/IOMUXC_SPDIF_RX_CAN1_RX/IOMUXC_UART3_TXD_CAN2_RX/g' "$i"
 	  sed -i 's/IOMUXC_SPDIF_TX_CAN1_TX/IOMUXC_UART3_RXD_CAN2_TX/g' "$i"
 	  sed -i 's/pin_num: AD18, peripheral: FLEXCAN1, signal: can_rx, pin_signal: SPDIF_RX/pin_num: AJ4, peripheral: FLEXCAN2, signal: can_rx, pin_signal: UART3_TXD/g' "$i"
@@ -81,7 +80,7 @@ function make_som_mx8mp()
 	  sed -i 's/Set FLEXCAN1 source to SYSTEM PLL1 800MHZ/Set FLEXCAN2 source to SYSTEM PLL1 800MHZ/g' "$i"
 	done
 
-	echo "Port GPIO3,16 to GPIO3,14"
+	echo "Adjust Led output"
 	for i in $(find boards/som_mx8mp -name "pin_mux.c"); do
 	  sed -i 's/IOMUXC_NAND_READY_B_GPIO3_IO16/IOMUXC_NAND_DQS_GPIO3_IO14/g' "$i"
 	done
@@ -94,28 +93,28 @@ function make_som_mx8mp()
 	  sed -i "s/pin_num: T28, peripheral: GPIO3, signal: 'gpio_io, 16', pin_signal: NAND_READY_B/pin_num: R26, peripheral: GPIO3, signal: 'gpio_io, 14', pin_signal: NAND_DQS/g" "$i"
 	done
 
-	echo "Port dts reference name"
+	echo "Replace dts reference name"
 	for i in $(find boards/som_mx8mp -name "board.c"); do
 	  sed -i "s/imx8mp-evk-rpmsg.dts/imx8mp-var-common-m7.dtsi/g" "$i"
 	done
 
-	echo "Port VDEV0_VRING_BASE"
+	echo "Adjust VDEV0_VRING_BASE"
 	for i in $(find boards/som_mx8mp -name "board.h"); do
 	  sed -i 's/(0x55000000U)/(0x40000000U)/g' "$i"
 	done
 
-	echo "Port BOARD_NAME and  MANUFACTURER_NAME"
+	echo "Adjust BOARD_NAME and  MANUFACTURER_NAME"
 	for i in $(find boards/som_mx8mp -name "board.h"); do
 	  sed -i 's/"MIMX8MP-EVK"/"VAR-SOM-MX8MQ-PLUS"/g' "$i"
 	  sed -i 's/"NXP"/"Variscite"/g' "$i"
 	done
 
-	echo "Port *.xml files"
+	echo "Adjust *.xml files"
 	for i in $(find boards/som_mx8mp -name "*.xml"); do
 	  sed -i "s/evkmimx8mp/som_mx8mp/g" "$i"
 	done
 
-	echo "Port readme.txt files"
+	echo "Adjust readme.txt files"
 	for i in $(find boards/som_mx8mp -name "readme.txt"); do
 	  sed -i "s/EVK-MIMX8M Plus board/VAR-SOM-MX8MQ-PLUS SoM/g" "$i"
 	  sed -i "s/Connect 12V power supply and J-Link Debug Probe to the board, switch SW3 to power on the board/Connect proper power supply and J-Link Debug Probe to the board, switch SW8 to power on the board/g" "$i"
@@ -133,10 +132,12 @@ function make_som_mx8mp()
 	  sed -i "s/GND         J21 - 6                      GND       J21 - 6/GND         J16 - 19                      GND       J16 - 19/g" "$i"
 	done
 
+	echo "Adjust clean.sh files"
 	for i in $(find boards/som_mx8mp -name "clean.sh"); do
 	  echo "rm -rf output.map" >> $i
 	done
 
+	echo "Remove evkmimx8mp.png file"
 	rm boards/som_mx8mp/evkmimx8mp.png
 
 	if [ ! -f SOM-MIMX8MP_manifest_v3_9.xml ]; then
