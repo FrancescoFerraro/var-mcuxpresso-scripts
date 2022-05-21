@@ -143,11 +143,32 @@ function make_som_mx8mp()
 	if [ ! -f SOM-MIMX8MP_manifest_v3_9.xml ]; then
 		cp EVK-MIMX8MP_manifest_v3_9.xml SOM-MIMX8MP_manifest_v3_9.xml
 		sed -i "s/evkmimx8mp/som_mx8mp/g" "SOM-MIMX8MP_manifest_v3_9.xml"
+		sed -i "s/EVK-MIMX8MP/VAR-SOM-MX8M-PLUS/g" "SOM-MIMX8MP_manifest_v3_9.xml"
+		sed -i "s/https:\/\/www.nxp.com\/pip\/8MPLUSLPD4-EVK/https:\/\/www.variscite.com\/product\/system-on-module-som\/cortex-a53-krait\/var-som-mx8m-plus-nxp-i-mx-8m-plus/g" "SOM-MIMX8MP_manifest_v3_9.xml"
+
+		#Remove picture
+		xmlstarlet ed -L -d "//ksdk:manifest/boards/board[@id=\"som_mx8mp\"]/image[@path=\"boards/som_mx8mp\"]" SOM-MIMX8MP_manifest_v3_9.xml
+
+		#Remove SAI examples
+		xmlstarlet ed -L -d "//ksdk:manifest/boards/board[@id=\"som_mx8mp\"]/examples/example[@id=\"som_mx8mp_sai_interrupt_transfer\"]" SOM-MIMX8MP_manifest_v3_9.xml
+		xmlstarlet ed -L -d "//ksdk:manifest/boards/board[@id=\"som_mx8mp\"]/examples/example[@id=\"som_mx8mp_sai_low_power_audio\"]" SOM-MIMX8MP_manifest_v3_9.xml
+		xmlstarlet ed -L -d "//ksdk:manifest/boards/board[@id=\"som_mx8mp\"]/examples/example[@id=\"som_mx8mp_sai_sdma_transfer\"]" SOM-MIMX8MP_manifest_v3_9.xml
+		xmlstarlet ed -L -d "//ksdk:manifest/boards/board[@id=\"som_mx8mp\"]/examples/example[@id=\"som_mx8mp_sai_interrupt_record_playback\"]" SOM-MIMX8MP_manifest_v3_9.xml
+		xmlstarlet ed -L -d "//ksdk:manifest/boards/board[@id=\"som_mx8mp\"]/examples/example[@id=\"som_mx8mp_sai_sdma_record_playback\"]" SOM-MIMX8MP_manifest_v3_9.xml
+
+		#Remove PDM examples
+		xmlstarlet ed -L -d "//ksdk:manifest/boards/board[@id=\"som_mx8mp\"]/examples/example[@id=\"som_mx8mp_pdm_hwvad\"]" SOM-MIMX8MP_manifest_v3_9.xml
+		xmlstarlet ed -L -d "//ksdk:manifest/boards/board[@id=\"som_mx8mp\"]/examples/example[@id=\"som_mx8mp_pdm_interrupt\"]" SOM-MIMX8MP_manifest_v3_9.xml
+		xmlstarlet ed -L -d "//ksdk:manifest/boards/board[@id=\"som_mx8mp\"]/examples/example[@id=\"som_mx8mp_pdm_sai_interrupt\"]" SOM-MIMX8MP_manifest_v3_9.xml
+		xmlstarlet ed -L -d "//ksdk:manifest/boards/board[@id=\"som_mx8mp\"]/examples/example[@id=\"som_mx8mp_pdm_sai_interrupt_transfer\"]" SOM-MIMX8MP_manifest_v3_9.xml
+		xmlstarlet ed -L -d "//ksdk:manifest/boards/board[@id=\"som_mx8mp\"]/examples/example[@id=\"som_mx8mp_pdm_sai_sdma\"]" SOM-MIMX8MP_manifest_v3_9.xml
+		xmlstarlet ed -L -d "//ksdk:manifest/boards/board[@id=\"som_mx8mp\"]/examples/example[@id=\"som_mx8mp_pdm_sdma_transfer\"]" SOM-MIMX8MP_manifest_v3_9.xml
+
+		#Remove ASRC examples
+		xmlstarlet ed -L -d "//ksdk:manifest/boards/board[@id=\"som_mx8mp\"]/examples/example[@id=\"som_mx8mp_asrc_m2m_polling\"]" SOM-MIMX8MP_manifest_v3_9.xml
+		xmlstarlet ed -L -d "//ksdk:manifest/boards/board[@id=\"som_mx8mp\"]/examples/example[@id=\"som_mx8mp_asrc_m2m_sdma\"]" SOM-MIMX8MP_manifest_v3_9.xml
+		xmlstarlet ed -L -d "//ksdk:manifest/boards/board[@id=\"som_mx8mp\"]/examples/example[@id=\"som_mx8mp_asrc_p2p_out_sdma\"]" SOM-MIMX8MP_manifest_v3_9.xml
 	fi
 
 	echo "automated porting completed"
-	echo
-	echo "todo manually"
-	echo " - SOM-MIMX8MP_manifest_v3_9.xml, remove reference to removed examples: (sai, asrc, pdm, sai_low_power_audio)"
-	echo
 }
