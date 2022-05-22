@@ -10,19 +10,17 @@ function usage()
 {
 	echo "This script make porting from NXP SDK to Variscite boards"
 	echo
-	echo "SDK_2_10_0 Usage:"
+	echo "SDK_2_11_1 Usage:"
 	echo " 0. from http://mcuxpresso.nxp.com build project for proper EVK board"
-	echo " 1. download SDK_2_10_0_EVK-MIMX8xx.tar.gz and uncompress it"
-	echo " 2. download SDK_2_10_0_EVK-MIMX8xx_doc.tar.gz and uncompress it"
-	echo " Note: download SDK_2_10_0_EVK-MIMX8xx and SDK_2_10_0_EVK-MIMX8xx_doc must have the same root dir"
+	echo " 1. download SDK_2_11_1_EVK-MIMX8xx.tar.gz and uncompress it"
 	echo "---------------------------------------------------------------------------------------------------------------"
 	echo " a. git clone https://github.com/varigit/freertos-variscite.git"
 	echo " b. cd freertos-variscite"
-	echo " c. git checkout --orphan mcuxpresso_sdk_2.10.x-var01"
+	echo " c. git checkout --orphan mcuxpresso_sdk_2.11.x-var01"
 	echo " d. git rm -rf ."
 	echo " e. cp <specific som>-porting-freertos.sh freertos-variscite/"
 	echo " f. cp ./${SCRIPT_NAME} freertos-variscite/"
-	echo " g. ./${SCRIPT_NAME} SDK_2_10_0_EVK-MIMX8xx_PATH cmd"
+	echo " g. ./${SCRIPT_NAME} SDK_2_11_1_EVK-MIMX8xx_PATH cmd"
 	echo "---------------------------------------------------------------------------------------------------------------"
 	echo " To test demos:"
 	echo " a. create a copy of freertos-variscite (ex: freertos-variscite-test)"
@@ -97,7 +95,6 @@ function merge_nxp_sdk()
 {
 	echo "I: merge_nxp_sdk"
 	rsync -avP $1/. .
-	rsync -avP $1_doc/docs/. ./docs/.
 }
 
 # Generate Variscite board ${DART_BOARD_NAME} starting from evk and apply changes
