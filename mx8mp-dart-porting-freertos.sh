@@ -40,7 +40,7 @@ function make_dart_mx8mp()
 	echo "Replace UART4 console with UART3"
 	for i in $(find boards/dart_mx8mp -name "board.h"); do
 	  sed -i 's/UART4_BASE/UART3_BASE/g' "$i"
-	  sed -i 's/(4U)/(3U)/g' "$i"
+	  sed -i 's/BOARD_DEBUG_UART_INSTANCE (4U)/BOARD_DEBUG_UART_INSTANCE (3U)/g' "$i"
 	  sed -i 's/kCLOCK_RootUart4/kCLOCK_RootUart3/g' "$i"
 	  sed -i 's/UART4_IRQn/UART3_IRQn/g' "$i"
 	  sed -i 's/UART4_IRQHandler/UART3_IRQHandler/g' "$i"
@@ -76,8 +76,8 @@ function make_dart_mx8mp()
 	done
 
 	for i in $(find boards/dart_mx8mp -name "uart*sdma*.c"); do
-	  sed -i 's/(28)/(26)/g' "$i"
-	  sed -i 's/(29)/(27)/g' "$i"
+	  sed -i 's/UART_RX_DMA_REQUEST       (28)/UART_RX_DMA_REQUEST       (26)/g' "$i"
+	  sed -i 's/UART_RX_DMA_REQUEST       (28)/UART_RX_DMA_REQUEST       (27)/g' "$i"
 	done
 
 	for i in $(find boards/dart_mx8mp -name "pin_mux.h"); do

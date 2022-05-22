@@ -112,7 +112,7 @@ function make_som_mx8mp()
 	done
 
 	for i in $(find boards/som_mx8mp -name "gpio_led_output.c"); do
-	  sed -i 's/16U/14U/g' "$i"
+	  sed -i 's/EXAMPLE_LED_GPIO_PIN 16U/EXAMPLE_LED_GPIO_PIN 14U/g' "$i"
 	done
 
 	for i in $(find boards/som_mx8mp -name "pin_mux.c"); do
