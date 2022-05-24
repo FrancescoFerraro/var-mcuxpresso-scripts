@@ -208,6 +208,12 @@ function make_dart_mx8mp()
 	  sed -i 's/"NXP"/"Variscite"/g' "$i"
 	done
 
+	echo "Adjust sdma"
+	sed -i 's/SDMAARM3/SDMAARM1/g' "boards/dart_mx8mp/driver_examples/sdma/memory_to_memory/sdma_memory_to_memory.c"
+	sed -i 's/SDMAARM3/SDMAARM1/g' "boards/dart_mx8mp/driver_examples/sdma/scatter_gather/sdma_scatter_gather.c"
+	sed -i 's/#define DEMO_SDMA_CLOCK_RATIO kSDMA_ARMClockFreq/\/*#define DEMO_SDMA_CLOCK_RATIO kSDMA_ARMClockFreq*\//g' "boards/dart_mx8mp/driver_examples/sdma/memory_to_memory/sdma_memory_to_memory.c"
+	sed -i 's/#define DEMO_SDMA_CLOCK_RATIO kSDMA_ARMClockFreq/\/*#define DEMO_SDMA_CLOCK_RATIO kSDMA_ARMClockFreq*\//g' "boards/dart_mx8mp/driver_examples/sdma/scatter_gather/sdma_scatter_gather.c"
+
 	echo "Adjust *.xml files"
 	for i in $(find boards/dart_mx8mp -name "*.xml"); do
 	  sed -i "s/evkmimx8mp/dart_mx8mp/g" "$i"
@@ -253,8 +259,8 @@ function make_dart_mx8mp()
 		xmlstarlet ed -L -d "//ksdk:manifest/boards/board[@id=\"dart_mx8mp\"]/examples/example[@id=\"dart_mx8mp_sai_interrupt_transfer\"]" DART-MIMX8MP_manifest_v3_9.xml
 		xmlstarlet ed -L -d "//ksdk:manifest/boards/board[@id=\"dart_mx8mp\"]/examples/example[@id=\"dart_mx8mp_sai_low_power_audio\"]" DART-MIMX8MP_manifest_v3_9.xml
 		xmlstarlet ed -L -d "//ksdk:manifest/boards/board[@id=\"dart_mx8mp\"]/examples/example[@id=\"dart_mx8mp_sai_sdma_transfer\"]" DART-MIMX8MP_manifest_v3_9.xml
-		xmlstarlet ed -L -d "//ksdk:manifest/boards/board[@id=\"dart_mx8mp\"]/examples/example[@id=\"dart_mx8mp_sai_interrupt_record_playback\"]" SOM-MIMX8MP_manifest_v3_9.xml
-		xmlstarlet ed -L -d "//ksdk:manifest/boards/board[@id=\"dart_mx8mp\"]/examples/example[@id=\"dart_mx8mp_sai_sdma_record_playback\"]" SOM-MIMX8MP_manifest_v3_9.xml
+		xmlstarlet ed -L -d "//ksdk:manifest/boards/board[@id=\"dart_mx8mp\"]/examples/example[@id=\"dart_mx8mp_sai_interrupt_record_playback\"]" DART-MIMX8MP_manifest_v3_9.xml
+		xmlstarlet ed -L -d "//ksdk:manifest/boards/board[@id=\"dart_mx8mp\"]/examples/example[@id=\"dart_mx8mp_sai_sdma_record_playback\"]" DART-MIMX8MP_manifest_v3_9.xml
 
 		#Remove PDM examples
 		xmlstarlet ed -L -d "//ksdk:manifest/boards/board[@id=\"dart_mx8mp\"]/examples/example[@id=\"dart_mx8mp_pdm_hwvad\"]" DART-MIMX8MP_manifest_v3_9.xml
