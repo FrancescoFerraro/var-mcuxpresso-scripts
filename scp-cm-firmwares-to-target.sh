@@ -64,12 +64,16 @@ case $FW_TYPE in
 
 for i in $(find boards/$BOARD_FOLDER -name armgcc)
 do
-	cd $i/$TARGET_FOLDER
-	for y in *.$FW_TYPE
-	do
-		#echo "found file :" $y
-		scp $y root@$IP:$OUTPUT_DIR/$y.$TARGET
-	done
-	cd - > /dev/null
+	if [ -d $i/$TARGET_FOLDER ]; then
+		cd $i/$TARGET_FOLDER
+		for y in *.$FW_TYPE
+		do
+			#echo "found file :" $y
+			scp $y root@$IP:$OUTPUT_DIR/$y.$TARGET
+		done
+		cd - > /dev/null
+	else
+		echo "folder <$i/$TARGET_FOLDER> doesn't exist !"
+	fi
 done
 exit
