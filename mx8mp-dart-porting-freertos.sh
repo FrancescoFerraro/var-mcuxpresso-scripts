@@ -238,6 +238,10 @@ function make_dart_mx8mp()
 	  sed -i 's/instance 2 of the ECSPI/instance 1 of the ECSPI/g' "$i"
 	done
 
+	sed -i 's/Use Oscilloscope to measure and observe the Test Point J21-32 output signal/Use Oscilloscope to measure and observe the Test Point J14-7 output signal/g' "boards/dart_mx8mp/driver_examples/pwm/readme.txt"
+	sed -i 's/When the example runs successfully, the green led on the cpu board is blinking and the following message is displayed in the terminal/When the example runs successfully, the following message is displayed in the terminal/g' "boards/dart_mx8mp/driver_examples/gpio/led_output/readme.txt"
+	sed -i 's/No special settings are required/For GPIO output pin refer to: https:\/\/variwiki.com\/index.php?title=MCUXpresso\&release=MCUXPRESSO_2.11.1_V1.0_DART-MX8M-PLUS#Demos_pins/g' "boards/dart_mx8mp/driver_examples/gpio/led_output/readme.txt"
+
 	echo "Adjust clean.sh files"
 	for i in $(find boards/dart_mx8mp -name "clean.sh"); do
 	  echo "rm -rf output.map" >> $i

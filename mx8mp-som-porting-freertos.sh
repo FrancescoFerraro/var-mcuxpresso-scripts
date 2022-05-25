@@ -164,6 +164,10 @@ function make_som_mx8mp()
 	  sed -i "s/GND         J21 - 6                      GND       J21 - 6/GND         J16 - 19                      GND       J16 - 19/g" "$i"
 	done
 
+	sed -i 's/Use Oscilloscope to measure and observe the Test Point J21-32 output signal/Use Oscilloscope to measure and observe the Test Point J18-2 output signal/g' "boards/som_mx8mp/driver_examples/pwm/readme.txt"
+	sed -i 's/When the example runs successfully, the green led on the cpu board is blinking and the following message is displayed in the terminal/When the example runs successfully, the following message is displayed in the terminal/g' "boards/som_mx8mp/driver_examples/gpio/led_output/readme.txt"
+	sed -i 's/No special settings are required/For GPIO output pin refer to: https:\/\/variwiki.com\/index.php?title=MCUXpresso\&release=MCUXPRESSO_2.11.1_V1.0_DART-MX8M-PLUS#Demos_pins/g' "boards/som_mx8mp/driver_examples/gpio/led_output/readme.txt"
+
 	echo "Adjust clean.sh files"
 	for i in $(find boards/som_mx8mp -name "clean.sh"); do
 	  echo "rm -rf output.map" >> $i
