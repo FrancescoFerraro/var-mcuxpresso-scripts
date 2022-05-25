@@ -216,14 +216,14 @@ function make_dart_mx8mp()
 
 	rm boards/dart_mx8mp/evkmimx8mp.png
 
-	if [ ! -f DART-MIMX8MP_manifest_v3_8.xml ]; then
-		cp EVK-MIMX8MP_manifest_v3_8.xml DART-MIMX8MP_manifest_v3_8.xml
-		sed -i "s/evkmimx8mp/dart_mx8mp/g" "DART-MIMX8MP_manifest_v3_8.xml"
+	if [ ! -f DART-MIMX8MP_manifest_v3_9.xml ]; then
+		cp EVK-MIMX8MP_manifest_v3_9.xml DART-MIMX8MP_manifest_v3_9.xml
+		sed -i "s/evkmimx8mp/dart_mx8mp/g" "DART-MIMX8MP_manifest_v3_9.xml"
 	fi
 
 	echo "automated porting completed"
 	echo
 	echo "todo manually"
-	echo " - DART-MIMX8MP_manifest_v3_8.xml, remove reference to removed examples: (sai, asrc, pdm, sai_low_power_audio)"
+	echo " - DART-MIMX8MP_manifest_v3_9.xml, remove reference to removed examples: (sai, asrc, pdm, sai_low_power_audio)"
 	echo
 }
