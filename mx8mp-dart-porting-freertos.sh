@@ -77,7 +77,7 @@ function make_dart_mx8mp()
 
 	for i in $(find boards/dart_mx8mp -name "uart*sdma*.c"); do
 	  sed -i 's/UART_RX_DMA_REQUEST       (28)/UART_RX_DMA_REQUEST       (26)/g' "$i"
-	  sed -i 's/UART_RX_DMA_REQUEST       (28)/UART_RX_DMA_REQUEST       (27)/g' "$i"
+	  sed -i 's/define UART_TX_DMA_REQUEST       (29)/define UART_TX_DMA_REQUEST       (27)/g' "$i"
 	done
 
 	for i in $(find boards/dart_mx8mp -name "pin_mux.h"); do
