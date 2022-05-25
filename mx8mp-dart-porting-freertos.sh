@@ -11,6 +11,32 @@ function make_dart_mx8mp()
 	rm -r boards/dart_mx8mp/driver_examples/pdm
 	rm -r boards/dart_mx8mp/demo_apps/sai_low_power_audio
 
+	# The changes in the clock_config.c files are need to avoid the M7 stuck after Power up the audiomix domain by M7 core.
+	# This happen when loading M7 binaries from linux user space using remoteproc framework.
+	# Disabling Audio Clock Initialization is not relevant for variscite boards because the audio is not supported
+	#
+	echo "Disable Audio Clock Initialization due to Variscite SDK doesn't support Audio"
+	for i in $(find boards/dart_mx8mp -name "clock_config.c"); do
+	  # Insert a line after match found
+	  sed -i '/fsl_audiomix.h.*/a #undef  SUPPORT_RPMSG_AUDIO\n' "$i"
+	  # Insert a line before match found
+	  sed -i '/CLOCK_InitAudioPll1.*/i #ifdef SUPPORT_RPMSG_AUDIO' "$i"
+	  # Insert a line after match found
+	  sed -i '/CLOCK_InitAudioPll2.*/a #endif' "$i"
+	  # Insert a line before match found
+	  sed -i '/CLOCK_EnableClock(kCLOCK_Audio.*/i #ifdef SUPPORT_RPMSG_AUDIO' "$i"
+	  # Insert a line after match found
+	  sed -i '/CLOCK_EnableClock(kCLOCK_Audio.*/a #endif' "$i"
+	  # Insert a line before match found
+	  sed -i '/Power up the audiomix domain by M7 core.*/i #ifdef SUPPORT_RPMSG_AUDIO' "$i"
+	  # Insert a line after match found
+	  sed -i '/AUDIOMIX_InitAudioPll.*/a #endif' "$i"
+	done
+
+	for i in $(find boards/dart_mx8mp -name "clock_config.c"); do
+	  sed -i '/#undef  SUPPORT_RPMSG_AUDIO/{x;p;x;}' "$i"
+	done
+
 	echo "Replace UART4 console with UART3"
 	for i in $(find boards/dart_mx8mp -name "board.h"); do
 	  sed -i 's/UART4_BASE/UART3_BASE/g' "$i"
