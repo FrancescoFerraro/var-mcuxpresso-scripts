@@ -135,6 +135,12 @@ function make_som_mx8mp()
 	  sed -i 's/"NXP"/"Variscite"/g' "$i"
 	done
 
+	echo "Adjust sdma"
+	sed -i 's/SDMAARM3/SDMAARM1/g' "boards/som_mx8mp/driver_examples/sdma/memory_to_memory/sdma_memory_to_memory.c"
+	sed -i 's/SDMAARM3/SDMAARM1/g' "boards/som_mx8mp/driver_examples/sdma/scatter_gather/sdma_scatter_gather.c"
+	sed -i 's/#define DEMO_SDMA_CLOCK_RATIO kSDMA_ARMClockFreq/\/*#define DEMO_SDMA_CLOCK_RATIO kSDMA_ARMClockFreq*\//g' "boards/som_mx8mp/driver_examples/sdma/memory_to_memory/sdma_memory_to_memory.c"
+	sed -i 's/#define DEMO_SDMA_CLOCK_RATIO kSDMA_ARMClockFreq/\/*#define DEMO_SDMA_CLOCK_RATIO kSDMA_ARMClockFreq*\//g' "boards/som_mx8mp/driver_examples/sdma/scatter_gather/sdma_scatter_gather.c"
+
 	echo "Adjust *.xml files"
 	for i in $(find boards/som_mx8mp -name "*.xml"); do
 	  sed -i "s/evkmimx8mp/som_mx8mp/g" "$i"
