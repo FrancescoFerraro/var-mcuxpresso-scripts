@@ -139,14 +139,14 @@ function make_som_mx8mp()
 
 	rm boards/som_mx8mp/evkmimx8mp.png
 
-	if [ ! -f SOM-MIMX8MP_manifest_v3_8.xml ]; then
-		cp EVK-MIMX8MP_manifest_v3_8.xml SOM-MIMX8MP_manifest_v3_8.xml
-		sed -i "s/evkmimx8mp/som_mx8mp/g" "SOM-MIMX8MP_manifest_v3_8.xml"
+	if [ ! -f SOM-MIMX8MP_manifest_v3_9.xml ]; then
+		cp EVK-MIMX8MP_manifest_v3_9.xml SOM-MIMX8MP_manifest_v3_9.xml
+		sed -i "s/evkmimx8mp/som_mx8mp/g" "SOM-MIMX8MP_manifest_v3_9.xml"
 	fi
 
 	echo "automated porting completed"
 	echo
 	echo "todo manually"
-	echo " - SOM-MIMX8MP_manifest_v3_8.xml, remove reference to removed examples: (sai, asrc, pdm, sai_low_power_audio)"
+	echo " - SOM-MIMX8MP_manifest_v3_9.xml, remove reference to removed examples: (sai, asrc, pdm, sai_low_power_audio)"
 	echo
 }
